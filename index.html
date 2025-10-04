@@ -9,138 +9,16 @@
   <style id='loadingSmile' type='text/css'>
   .loadingSmile{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#ffffff;display:flex;align-items:center;justify-content:center;z-index:9999;animation:fadeOut 0.8s ease-in-out 3s forwards;}.loadingSmile img{width:12vh;height:12vh;border-radius:50%;position:relative;z-index:2;animation:zoomPulse 2s ease-in-out infinite;box-shadow:0 0 30px rgba(255,215,0,0.6),0 8px 32px rgba(0,0,0,0.1),inset 0 2px 4px rgba(255,255,255,0.8);}.loadingSmile img::before{content:'';position:absolute;top:-8px;left:-8px;width:calc(100% + 16px);height:calc(100% + 16px);border:2px solid transparent;border-top:2px solid #ffd700;border-right:2px solid #ffb347;border-radius:50%;animation:spin 1.2s linear infinite;z-index:1;}.loadingSmile img::after{content:'';position:absolute;top:-15px;left:-15px;width:calc(100% + 30px);height:calc(100% + 30px);border:1px solid transparent;border-left:1px solid #ff8c00;border-bottom:1px solid #ffa500;border-radius:50%;animation:spin 2s linear infinite reverse;z-index:0;}@keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}@keyframes zoomPulse{0%,100%{transform:scale(1);filter:brightness(1);box-shadow:0 0 30px rgba(255,215,0,0.6),0 8px 32px rgba(0,0,0,0.1),inset 0 2px 4px rgba(255,255,255,0.8);}50%{transform:scale(1.1);filter:brightness(1.2);box-shadow:0 0 50px rgba(255,215,0,0.8),0 12px 40px rgba(0,0,0,0.15),inset 0 3px 6px rgba(255,255,255,0.9);}}@keyframes fadeOut{0%{opacity:1;transform:scale(1);}50%{opacity:0.8;transform:scale(1.15);}100%{opacity:0;transform:scale(0.85);visibility:hidden;}}
   </style>
-  <script type="module" crossorigin src="/coffeehawka/assets/main-zjT9FS1h.js"></script>
+  <script type="module" crossorigin src="/coffeehawka/assets/main-B-xJay7Z.js"></script>
   <link rel="modulepreload" crossorigin href="/coffeehawka/assets/widev-D5r1cEpO.js">
   <link rel="stylesheet" crossorigin href="/coffeehawka/assets/widev-BH1Yciez.css">
-  <link rel="stylesheet" crossorigin href="/coffeehawka/assets/style-ueJwrL_4.css">
+  <link rel="stylesheet" crossorigin href="/coffeehawka/assets/style-jecNHYpg.css">
 </head>
 <body>
-  <header class="hd">
-    <h1 class="wilang">
-    <span class="wilang_titu">Language: </span>
-    <div class="midw_v1">
-        <div class="wilang-trigger">
-            <div class="wilang-selected">
-                <img src="https://www.svgrepo.com/show/508668/flag-us.svg" alt="English" class="flag-icon">
-                <span>English</span>
-            </div>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="wilang-content">
-          <div class="wilang-item" data-lang="en" data-url="https://coffeehawka.web.app">
-              <img src="https://www.svgrepo.com/show/508668/flag-us.svg" alt="English" class="flag-icon">
-              <span>English</span>
-          </div>
-          <div class="wilang-item" data-lang="es" data-url="https://cartadehawka.web.app/">
-            <img src="https://www.svgrepo.com/show/405610/flag-for-flag-spain.svg" alt="Spanish" class="flag-icon">
-            <span>Español</span>
-          </div>
-        </div>
-    </div>
-
-    </h1>
-
-  </header>
   <!-- Contenido dinámico del menú -->
   <div id="menu-app">
       <div class="loadingSmile"><img src="./smile.png" alt="Avatar" class="user-avatar"/></div>
   </div>
-
-
-  <!-- Modals (FOOTER) -->
-  <div id="foo-about" class="foomodal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="foo-dialog">
-      <button class="foo-close" aria-label="Close">&times;</button>
-      <div class="foo-head">
-        <div class="foo-badge"><i class="fas fa-info-circle"></i></div>
-        <h3>About the app</h3>
-      </div>
-      <p>Coffee Hawka allows you to display your menu by pages with prices, descriptions and icons. Optimized for mobile and local cache.</p>
-      <ul class="foo-list">
-        <li>Fast loading with cache</li>
-        <li>Multi-language support (selector in header)</li>
-        <li>Responsive and accessible design</li>
-      </ul>
-      <div class="foo-actions">
-        <button class="foo-btn foo-btn--primary foo-ok">Got it</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="foo-priv" class="foomodal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="foo-dialog">
-      <button class="foo-close" aria-label="Close">&times;</button>
-      <div class="foo-head">
-        <div class="foo-badge"><i class="fas fa-user-shield"></i></div>
-        <h3>Privacy policies</h3>
-      </div>
-      <p>We do not collect personal data without your consent. Menu content is processed and cached in your browser.</p>
-      <ul class="foo-list">
-        <li>No tracking cookies</li>
-        <li>Local cache control (Ctrl+Shift+R to clear)</li>
-        <li>Lazy loading images</li>
-      </ul>
-      <div class="foo-actions">
-        <button class="foo-btn foo-btn--primary foo-ok">Got it</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="foo-recl" class="foomodal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="foo-dialog">
-      <button class="foo-close" aria-label="Close">&times;</button>
-      <div class="foo-head">
-        <img src="./libroReclamos.png" alt="Complaints Book" class="foo-hero">
-        <h3>Complaints book</h3>
-      </div>
-      <form id="reclamosForm" class="foo-form" novalidate>
-        <div class="foo-grid">
-          <label> Full name
-            <input name="nombres" type="text" required placeholder="Your full name" />
-          </label>
-          <label> Email
-            <input name="email" type="email" required placeholder="youremail@domain.com" />
-          </label>
-          <label> Phone
-            <input name="telefono" type="tel" placeholder="+51 999 999 999" />
-          </label>
-          <label> Order # (optional)
-            <input name="pedido" type="text" placeholder="Ex: A123" />
-          </label>
-          <label class="foo-span2"> Complaint details
-            <textarea name="detalle" required rows="4" placeholder="Describe your complaint..."></textarea>
-          </label>
-          <label class="foo-span2 foo-chk">
-            <input type="checkbox" name="consent" required />
-            I agree to the use of my data to follow up on my complaint.
-          </label>
-        </div>
-        <div class="foo-actions">
-          <button type="button" class="foo-btn foo-btn--ghost foo-cancel">Cancel</button>
-          <button type="submit" class="foo-btn foo-btn--primary">Send</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <footer class="foo">
-    <div class="foo-inner">
-      <!-- 2nd row: Links -->
-      <nav class="foo-links">
-        <button class="lk about" data-foomodal="#foo-about" type="button">About the app</button>
-        <button class="lk priv" data-foomodal="#foo-priv" type="button">Privacy policies</button>
-      </nav>
-      
-      <!-- 1st row: Credits -->
-      <div class="brand">
-        Created with <i class="fa fa-heart"></i> by
-        <a class="lkme" href="https://wtaype.github.io/" target="_blank" rel="noopener">@wilder.taype</a>
-        | <span class="Login"> Login</span> | <span class="wty">2025</span>
-      </div>
-    </div>
-  </footer>
-// ...existing code...
-
 
 </body>
 </html>
