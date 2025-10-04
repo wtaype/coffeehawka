@@ -173,7 +173,10 @@ let rol = 'smile' //Rol default
 let temaAsignado = 'Cielo' //Rol default
 
   // Navegación entre modales
-  $('.Login').click(() => OpenAuthM('loginModal'));
+  // $('.Login').click(() => OpenAuthM('loginModal'));
+  $(document).on('click','.Login', function(){
+    OpenAuthM('loginModal')
+  });
   $('.registrar').click(() => OpenAuthM('registroModal'));
   $('.crearCuenta').click(()=> {OpenAuthM('registroModal');CloseAuthM('loginModal')});
   $('.conCuenta').click(()=> {OpenAuthM('loginModal');CloseAuthM('registroModal')});

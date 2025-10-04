@@ -11,12 +11,22 @@ const debounced = (() => { let t; return () => (clearTimeout(t), t = setTimeout(
 $(debounced); $(window).on('load resize orientationchange', debounced);
 
 // Idiomas (toggle)
-$(() => {
-  const $w = $('.midw_v1'), $c = $w.find('.wilang-content');
-  $w.on('click', '.wilang-trigger', e => (e.stopPropagation(), $c.toggleClass('show'), $w.find('.fa-chevron-down').toggleClass('rotated')))
-    .on('click', '.wilang-item', function(){ $c.removeClass('show'); setTimeout(()=>location.href=$(this).data('url'),200); });
-  $(document).on('click', () => ($c.removeClass('show'), $w.find('.fa-chevron-down').removeClass('rotated')));
-});
+const initLangSelector = () => $(document).off('.wilang').on('click.wilang', '.wilang-trigger', e => {
+  e.stopPropagation();
+  const $w = $(e.currentTarget).closest('.midw_v1'), $c = $w.find('.wilang-content');
+  $c.toggleClass('show');
+  $w.find('.fa-chevron-down').toggleClass('rotated');
+}).on('click.wilang', '.wilang-item', function(e){
+  e.stopPropagation();
+  $('.wilang-content').removeClass('show');
+  $('.fa-chevron-down').removeClass('rotated');
+  setTimeout(() => location.href = $(this).data('url'), 200);
+}).on('click.wilang', e => {
+  if (!$(e.target).closest('.midw_v1').length) {
+    $('.wilang-content').removeClass('show');
+    $('.fa-chevron-down').removeClass('rotated');
+  }
+}); $(() => initLangSelector());
 
 // Config desde smile.js (opcional)
 const SM = window.smile || {};
@@ -28,7 +38,7 @@ const CFG = {
   HRS: SM.cacheHoras || 6,
   LIM_CARTAS: SM.limCartas || 500,
   LIM_HOJAS: SM.limHojas || 50,
-  IMG_FALLBACK: SM.imgFallback || 'https://i.postimg.cc/KvN8qF2P/menu-default.jpg',
+  IMG_FALLBACK: SM.imgFallback || '/smile.png',
   ICONO_HOJA: SM.iconoHoja || 'fa-utensils',
   CURRENCY: SM.currency || 'S/',
   SHOW_ICONS: SM.showIcons !== false
@@ -75,19 +85,131 @@ const hojaHTML = (num, items, headers) => {
     <div class="separador"><span class="sep-number">${num}</span></div>`;
 };
 
-// Pintar menú (solo hojas activas + cartas activas)
+// ...existing code...
+
+// Generar header con selector de idiomas
+const renderHeader = () => {
+  const langs = {
+    en: { name: 'English', flag: 'https://www.svgrepo.com/show/508668/flag-us.svg', url: 'https://coffeehawka.web.app' },
+    es: { name: 'Español', flag: 'https://www.svgrepo.com/show/405610/flag-for-flag-spain.svg', url: 'https://cartadehawka.web.app' }
+  };
+  const items = Object.entries(langs).map(([k,v]) => `<div class="wilang-item" data-lang="${k}" data-url="${v.url}"><img src="${v.flag}" alt="${v.name}" class="flag-icon"><span>${v.name}</span></div>`).join('');
+  
+  return `<header class="hd"><h1 class="wilang"><span class="wilang_titu">Language: </span><div class="midw_v1"><div class="wilang-trigger"><div class="wilang-selected"><img src="${langs.en.flag}" alt="${langs.en.name}" class="flag-icon"><span>${langs.en.name}</span></div><i class="fas fa-chevron-down"></i></div><div class="wilang-content">${items}</div></div></h1></header>`;
+};
+
+// Generar footer con modales
+const renderFooter = () => `
+  <!-- Modals (FOOTER) -->
+  <div id="foo-about" class="foomodal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="foo-dialog">
+      <button class="foo-close" aria-label="Close">&times;</button>
+      <div class="foo-head">
+        <div class="foo-badge"><i class="fas fa-info-circle"></i></div>
+        <h3>About the app</h3>
+      </div>
+      <p>Coffee Hawka allows you to display your menu by pages with prices, descriptions and icons. Optimized for mobile and local cache.</p>
+      <ul class="foo-list">
+        <li>Fast loading with cache</li>
+        <li>Multi-language support (selector in header)</li>
+        <li>Responsive and accessible design</li>
+      </ul>
+      <div class="foo-actions">
+        <button class="foo-btn foo-btn--primary foo-ok">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="foo-priv" class="foomodal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="foo-dialog">
+      <button class="foo-close" aria-label="Close">&times;</button>
+      <div class="foo-head">
+        <div class="foo-badge"><i class="fas fa-user-shield"></i></div>
+        <h3>Privacy policies</h3>
+      </div>
+      <p>We do not collect personal data without your consent. Menu content is processed and cached in your browser.</p>
+      <ul class="foo-list">
+        <li>No tracking cookies</li>
+        <li>Local cache control (Ctrl+Shift+R to clear)</li>
+        <li>Lazy loading images</li>
+      </ul>
+      <div class="foo-actions">
+        <button class="foo-btn foo-btn--primary foo-ok">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="foo-recl" class="foomodal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="foo-dialog">
+      <button class="foo-close" aria-label="Close">&times;</button>
+      <div class="foo-head">
+        <img src="./libroReclamos.png" alt="Complaints Book" class="foo-hero">
+        <h3>Complaints book</h3>
+      </div>
+      <form id="reclamosForm" class="foo-form" novalidate>
+        <div class="foo-grid">
+          <label> Full name
+            <input name="nombres" type="text" required placeholder="Your full name" />
+          </label>
+          <label> Email
+            <input name="email" type="email" required placeholder="youremail@domain.com" />
+          </label>
+          <label> Phone
+            <input name="telefono" type="tel" placeholder="+51 999 999 999" />
+          </label>
+          <label> Order # (optional)
+            <input name="pedido" type="text" placeholder="Ex: A123" />
+          </label>
+          <label class="foo-span2"> Complaint details
+            <textarea name="detalle" required rows="4" placeholder="Describe your complaint..."></textarea>
+          </label>
+          <label class="foo-span2 foo-chk">
+            <input type="checkbox" name="consent" required />
+            I agree to the use of my data to follow up on my complaint.
+          </label>
+        </div>
+        <div class="foo-actions">
+          <button type="button" class="foo-btn foo-btn--ghost foo-cancel">Cancel</button>
+          <button type="submit" class="foo-btn foo-btn--primary">Send</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="foo">
+    <div class="foo-inner">
+      <nav class="foo-links">
+        <button class="lk about" data-foomodal="#foo-about" type="button">About the app</button>
+        <button class="lk priv" data-foomodal="#foo-priv" type="button">Privacy policies</button>
+        <button class="lk recl" data-foomodal="#foo-recl" type="button">
+          <img src="./libroReclamos.png" alt="Complaints Book" style="width:20px;height:20px;vertical-align:middle;margin-right:5px;">
+          Complaints book
+        </button>
+      </nav>
+      <div class="brand">
+        Created with <i class="fa fa-heart"></i> by
+        <a class="lkme" href="https://wtaype.github.io/" target="_blank" rel="noopener">@wilder.taype</a>
+        | <span class="Login"> Login</span> | <span class="wty">2025</span>
+      </div>
+    </div>
+  </footer>`;
+
+
+// Pintar menú (solo hojas activas + cartas activas) con header y footer incluido
 const pintarMenu = (cartas, headers) => {
   const $root = $('#menu-app');
   const activos = cartas.filter(c => isAct(c.estado));
   const grupos = activos.reduce((m,c)=>((m[c.hoja=+c.hoja||0]||(m[c.hoja]=[])).push(c), m), {});
   const keys = Object.keys(headers).map(Number).filter(n=>n>0).sort((a,b)=>a-b);
 
-  if (!keys.length) return $root.html('<p class="no-items txc">No hay menús disponibles</p>');
+  if (!keys.length) return $root.html(renderHeader() + '<p class="no-items txc">No hay menús disponibles</p>' + renderFooter());
 
-  $root.html(keys.map(n => {
+  const menuContent = keys.map(n => {
     const items = (grupos[n]||[]).sort((a,b)=> (+(a.orden||0))-(+(b.orden||0)) || String(a.titulo||'').localeCompare(String(b.titulo||'')));
     return hojaHTML(n, items, headers);
-  }).join(''));
+  }).join('');
+
+  $root.html(renderHeader() + menuContent + renderFooter());
 
   const imgs = $root.find('img').toArray();
   Promise.all(imgs.map(i=>i.complete?Promise.resolve():new Promise(r=>{i.onload=i.onerror=r;})))
